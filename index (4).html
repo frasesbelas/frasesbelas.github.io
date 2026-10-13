@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frases Belas: frases para Status de bom dia, amor, fé e mais</title>
+<meta name="description" content="Frases Belas: frases curtas em português para o teu Status do WhatsApp. Copia ou envia com um toque.">
+<style>
+:root{--ink:#14183A;--paper:#F2F4F9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{max-width:640px;margin:0 auto;padding:22px 16px 6px}
+h1{font:700 1.7rem/1.15 Georgia,"Times New Roman",serif;margin:0 0 6px}
+header p{margin:0;color:#4a5070}
+nav{position:sticky;top:0;z-index:2;background:var(--paper);padding:10px 0}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:0 16px;max-width:640px;margin:0 auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:2px solid var(--ink);background:transparent;color:var(--ink);padding:8px 14px;border-radius:999px;font:600 .9rem system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+main{max-width:640px;margin:0 auto;padding:6px 16px 36px}
+h2{font:700 .95rem system-ui,sans-serif;margin:14px 0 8px}
+.tile{background:var(--bg);color:var(--fg);border-radius:20px;padding:22px 20px 16px;margin:0 0 14px}
+.tile .cat{margin:0 0 10px;font-size:.85rem;opacity:.85}
+.tile .phrase{margin:0 0 18px;font:600 1.25rem/1.4 Georgia,"Times New Roman",serif}
+.tile.today .phrase{font-size:1.5rem}
+.actions{display:flex;gap:8px}
+.btn{flex:1;min-height:46px;border-radius:12px;border:2px solid currentColor;background:transparent;color:inherit;font:600 .95rem system-ui,sans-serif;cursor:pointer}
+.btn.main{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn:focus-visible,.chip:focus-visible{outline:3px solid currentColor;outline-offset:3px}
+.c-bomdia{--bg:#FFC21A;--fg:#14183A}
+.c-boanoite{--bg:#1E2A78;--fg:#fff}
+.c-motivacao{--bg:#0B7A5E;--fg:#fff}
+.c-amor{--bg:#C42A68;--fg:#fff}
+.c-fe{--bg:#5B3FA8;--fg:#fff}
+.c-amizade{--bg:#1B62DB;--fg:#fff}
+.ad{margin:0 0 14px}
+.ad:empty{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+footer{max-width:640px;margin:0 auto;padding:0 16px 32px;color:#4a5070;font-size:.85rem}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.c-gratidao{--bg:#8A5A00;--fg:#fff}
+.c-familia{--bg:#007C8C;--fg:#fff}
+.search{display:block;width:100%;margin-top:12px;padding:12px 14px;border:2px solid var(--ink);border-radius:12px;font:1rem system-ui,sans-serif;background:#fff;color:var(--ink)}
+.count{margin:0 0 10px;font-size:.85rem;color:#4a5070}
+.empty{padding:20px 0;color:#4a5070}
+.more{width:100%;margin:6px 0 16px;border-color:var(--ink);color:var(--ink)}
+.ad.on{min-height:100px;border-radius:12px;background:#E3E7F2;display:flex;align-items:center;justify-content:center}
+.ad.on:empty{display:flex}
+.ad.on:empty::before{content:"Publicidade";font-size:.7rem;color:#6b7194}
+</style>
+<!-- ANÚNCIOS: cola aqui o script da rede de anúncios (quando fores aprovado) -->
+</head>
+<body>
+<header>
+  <h1>Frases Belas</h1>
+  <p>Escolhe uma frase, copia ou envia no WhatsApp com um toque.</p>
+  <input id="q" class="search" type="search" placeholder="Procurar frase..." aria-label="Procurar frase">
+</header>
+<nav aria-label="Categorias"><div class="chips" id="chips"></div></nav>
+<main>
+  <h2>Frase do dia</h2>
+  <div id="today"></div>
+  <!-- ANÚNCIO TOPO: cola aqui o código da rede de anúncios dentro deste aside -->
+  <aside class="ad" id="ad-topo" aria-label="Publicidade"></aside>
+  <h2 id="listTitle">Todas as frases</h2>
+  <p class="count" id="count"></p>
+  <div id="list"></div>
+  <button class="btn more" id="more" hidden>Mostrar mais frases</button>
+  <!-- ANÚNCIO FIM -->
+  <aside class="ad" id="ad-fim" aria-label="Publicidade"></aside>
+</main>
+<footer>
+  <!-- Adiciona aqui o link para a página de Política de Privacidade (as redes de anúncios pedem). -->
+  <p>Frases originais. Podes copiar e partilhar à vontade.</p>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+var N={bomdia:"Bom dia",boanoite:"Boa noite",motivacao:"Motivação",amor:"Amor",fe:"Fé",amizade:"Amizade",gratidao:"Gratidão",familia:"Família"};
+var D=[
+["bomdia", "Bom dia ☀️ Que hoje o teu esforço encontre portas abertas."],
+["bomdia", "Acordaste com mais uma chance. Usa-a bem. 🌅"],
+["bomdia", "Bom dia! Começa o dia com gratidão e termina com orgulho. 🙏"],
+["bomdia", "Hoje não precisas de ser perfeito, só de dar o próximo passo. 👣"],
+["bomdia", "Que a manhã te traga calma e o dia te traga boas notícias. ☀️"],
+["bomdia", "O café arrefece, a oportunidade não espera. Bom dia! ☕"],
+["bomdia", "Bom dia a quem trabalha desde cedo para chegar mais longe. 💪"],
+["bomdia", "Respira fundo. O dia ainda é teu para escrever. ✨"],
+["bomdia", "Que nenhuma pressa te roube a paz desta manhã. 🌿"],
+["bomdia", "Bom dia! Sorri primeiro, o dia acompanha. 😊"],
+["bomdia", "Cada amanhecer é uma resposta às tuas orações. 🌄"],
+["bomdia", "Levanta-te com fé, que Deus já foi à frente. 🙌"],
+["bomdia", "Bom dia, guerreiro. Mais um dia para vencer o de ontem. 🔥"],
+["bomdia", "Que hoje a vida te surpreenda pelo lado bom. 🍀"],
+["bomdia", "Dia novo, cabeça leve, coração em paz. Bom dia! 🌞"],
+["bomdia", "Bom dia! Que o teu esforço de hoje seja maior do que a tua preguiça. 💪"],
+["bomdia", "Acordar é a primeira vitória do dia. Já começaste a ganhar. 🏆"],
+["bomdia", "Que nesta manhã a tua mente fique leve e o teu coração cheio. 🌤️"],
+["bomdia", "Bom dia! O que não deu ontem pode dar hoje. 🌱"],
+["bomdia", "Levanta, agradece e vai à luta. O resto Deus ajeita. 🙏"],
+["bomdia", "Bom dia a quem ainda acredita em recomeços. 🌅"],
+["bomdia", "Que a tua paz seja maior do que qualquer pressa hoje. 🕊️"],
+["bomdia", "Hoje, escolhe o que te faz bem e deixa o que te cansa. 🌿"],
+["bomdia", "Bom dia! Sê gentil contigo, mesmo nos dias lentos. 🤍"],
+["bomdia", "Que o teu dia seja simples, leve e cheio de coisas boas. 🍀"],
+["bomdia", "Bom dia! A vida é curta demais para começar o dia de mau humor. 😄"],
+["bomdia", "Mais um amanhecer, mais uma oportunidade de fazer diferente. ✨"],
+["bomdia", "Bom dia! Que cada decisão de hoje te aproxime do que sonhas. 🎯"],
+["bomdia", "Que a luz desta manhã te lembre que há sempre recomeço. ☀️"],
+["boanoite", "Boa noite 🌙 Hoje foi o que foi. Amanhã podes fazer melhor."],
+["boanoite", "Descansa. Quem cuida do corpo hoje tem força amanhã. 😴"],
+["boanoite", "Que a noite te traga sono tranquilo e sonhos leves. ✨"],
+["boanoite", "Fizeste o possível hoje, e isso é suficiente. Boa noite! 🌌"],
+["boanoite", "Deixa as preocupações lá fora e entra de coração leve. 🌙"],
+["boanoite", "Boa noite a quem chegou cansado, mas não desistiu. 💙"],
+["boanoite", "Agradece o dia que passou e confia no que vem. 🙏"],
+["boanoite", "Que Deus guarde o teu sono e renove as tuas forças. 🌠"],
+["boanoite", "Hoje o mundo pode ter pesado, mas amanhã há outro começo. 🌅"],
+["boanoite", "Boa noite. Que o silêncio desta hora te devolva a paz. 🌃"],
+["boanoite", "Dorme sem culpa: o que ficou por fazer, amanhã faz-se. 🛌"],
+["boanoite", "Que cada estrela lá em cima te lembre que não estás sozinho. ⭐"],
+["boanoite", "Fecha o dia com calma e abre o amanhã com esperança. 🌙"],
+["boanoite", "Boa noite a quem ama em silêncio e luta sem plateia. 💫"],
+["boanoite", "Que a noite seja de descanso e o amanhã de recomeço. 😌"],
+["boanoite", "Boa noite! Hoje já deste o teu melhor. Agora descansa. 🌙"],
+["boanoite", "Que a tua mente se cale e o teu corpo agradeça o descanso. 😴"],
+["boanoite", "Boa noite! Que amanhã seja mais leve do que hoje. 🌌"],
+["boanoite", "O dia acabou, as preocupações podem esperar. Boa noite. 🛏️"],
+["boanoite", "Que Deus te cubra esta noite com paz e proteção. 🙏"],
+["boanoite", "Boa noite a quem rezou, trabalhou e não desistiu. ✨"],
+["boanoite", "Respira fundo, solta o dia e entrega a noite ao descanso. 🌃"],
+["boanoite", "Quem dorme em paz já ganhou metade do dia seguinte. 💤"],
+["boanoite", "Boa noite! Que os teus sonhos sejam maiores que os teus medos. 🌠"],
+["boanoite", "Que esta noite repare o cansaço e renove a coragem. 🌙"],
+["boanoite", "Boa noite. O que doeu hoje vai passar, confia. 🕊️"],
+["boanoite", "Desliga o ecrã, abraça o silêncio e dorme bem. 📵"],
+["boanoite", "Termina o dia com gratidão. Há sempre algo a agradecer. 🙏"],
+["boanoite", "Boa noite! Amanhã a vida volta a dar-te uma chance. 🌅"],
+["motivacao", "Não desistas agora. O cansaço passa, o arrependimento fica. 💪"],
+["motivacao", "Cada passo pequeno é progresso, mesmo que ninguém veja. 👣"],
+["motivacao", "Quem tem um porquê forte aguenta quase qualquer como. 🔥"],
+["motivacao", "Não esperes motivação. Cria disciplina e a motivação vem atrás. 🎯"],
+["motivacao", "O teu único concorrente é quem eras ontem. 📈"],
+["motivacao", "Falhar não é cair, é aprender a levantar com mais jeito. 🌱"],
+["motivacao", "Sonha grande, começa pequeno, mas começa hoje. 🚀"],
+["motivacao", "Quem trabalha em silêncio constrói o que o barulho não compra. 🤫"],
+["motivacao", "Há dias de lutar e dias de resistir. Os dois contam. 🛡️"],
+["motivacao", "Não percas o foco por quem não vai contigo até ao fim. 🎯"],
+["motivacao", "O sucesso demora, mas quem insiste chega. ⏳"],
+["motivacao", "O que hoje te cansa vai ser a tua história de vitória. 🏆"],
+["motivacao", "Não precisas de ver o caminho todo, só o próximo passo. 🧭"],
+["motivacao", "Acredita no teu processo, mesmo quando ninguém acredita. 🙌"],
+["motivacao", "Pequenas atitudes repetidas todos os dias mudam uma vida. 🔁"],
+["motivacao", "Não é sorte, é consistência. Continua. 🔁"],
+["motivacao", "Quem sabe esperar a trabalhar nunca fica de mãos vazias. ⏳"],
+["motivacao", "Hoje custa. Amanhã vais agradecer por não teres desistido. 💪"],
+["motivacao", "A disciplina vence o talento quando o talento não trabalha. 🎯"],
+["motivacao", "Não te compares. Tens o teu próprio ritmo. 🐢"],
+["motivacao", "Ninguém chega ao topo de um dia para o outro, mas todos chegam aos poucos. 🏔️"],
+["motivacao", "Cada recusa é uma lição disfarçada. Aprende e segue. 📚"],
+["motivacao", "A tua história ainda está a ser escrita. Faz um bom capítulo hoje. ✍️"],
+["motivacao", "Quando o caminho é difícil, é sinal de que estás a subir. ⛰️"],
+["motivacao", "Faz hoje o que o teu eu do futuro vai agradecer. 🚀"],
+["motivacao", "Não deixes que um dia mau decida a tua semana. 💫"],
+["motivacao", "O medo é normal. Ficar parado por causa dele é que é escolha. 🦁"],
+["motivacao", "Sonhar é o primeiro passo. Agir é o que o torna real. 🌟"],
+["motivacao", "Quem se levanta mais uma vez do que cai, vence. 🏆"],
+["amor", "Contigo, até o dia mais comprido passa depressa. ❤️"],
+["amor", "Amar é escolher a mesma pessoa todos os dias. 💞"],
+["amor", "O teu abraço é o meu sítio favorito. 🤗"],
+["amor", "Não preciso de muito. Preciso de ti. 💕"],
+["amor", "Quando sorris, o resto do mundo desfoca. 😍"],
+["amor", "Amor de verdade é paz, não é confusão. 🕊️"],
+["amor", "Ficas bem em qualquer lugar da minha vida. 💖"],
+["amor", "Obrigado por me amares nos dias em que eu nem me aguento. 🥹"],
+["amor", "Contigo aprendi que casa não é lugar, é pessoa. 🏠"],
+["amor", "O amor não grita. Fica, cuida e permanece. 🌹"],
+["amor", "Se for contigo, eu vou. Sem mapa e sem pressa. 💫"],
+["amor", "Tu és a melhor parte dos meus dias. ☀️"],
+["amor", "Amar também é respeitar o tempo e o espaço do outro. 🤝"],
+["amor", "Que o nosso amor seja sempre mais forte que o orgulho. 💪"],
+["amor", "Penso em ti mais vezes do que consigo contar. 💭"],
+["amor", "Amor não é só sentir borboletas, é escolher ficar. 💞"],
+["amor", "Contigo, o silêncio também é conversa. 🤍"],
+["amor", "Quero envelhecer ao teu lado e rir das mesmas piadas. 😊"],
+["amor", "Amar é cuidar, mesmo quando ninguém está a ver. 🌹"],
+["amor", "Obrigado por seres o meu lugar seguro. 🏡"],
+["amor", "A tua imperfeição é o meu lugar preferido. 💖"],
+["amor", "Tenho tudo o que preciso quando estás por perto. 💕"],
+["amor", "O amor cresce onde há respeito, paciência e verdade. 🌱"],
+["amor", "Mesmo de longe, penso em ti. A saudade também é amor. 📱"],
+["amor", "Escolho-te hoje, amanhã e nos dias difíceis. 💍"],
+["amor", "Contigo, o ordinário vira especial. ✨"],
+["amor", "Não prometo perfeição. Prometo presença. 🤝"],
+["amor", "Se o teu abraço é casa, já sei onde quero morar. 🤗"],
+["amor", "Amor bom não machuca nem confunde: acalma. 🕊️"],
+["fe", "Confia no tempo de Deus. Ele nunca chega tarde. 🙏"],
+["fe", "Quando já não tens forças, a fé segura por ti. ✝️"],
+["fe", "Entrega o que te pesa e caminha mais leve. 🕊️"],
+["fe", "Deus não te trouxe até aqui para te deixar a meio. 🙌"],
+["fe", "Agradece primeiro. A gratidão abre mais portas do que a queixa. 🙏"],
+["fe", "O que é teu chega, mesmo que demore. 🌿"],
+["fe", "Mesmo no vale mais escuro, Deus caminha contigo. 🌄"],
+["fe", "Reza, confia e age. A fé também trabalha. 💫"],
+["fe", "Que Deus te proteja onde os teus olhos não alcançam. 🛡️"],
+["fe", "Nem tudo o que Deus adia é negado. Muitas vezes é preparado. ⏳"],
+["fe", "A paz que Deus dá não depende das circunstâncias. 🕊️"],
+["fe", "Hoje agradeço pelo que tenho e pelo que ainda vem. 🙏"],
+["fe", "A fé não elimina a luta, mas dá força para a vencer. 🔥"],
+["fe", "Quem pôs a semente também sabe o tempo da colheita. 🌾"],
+["fe", "Que a tua fé seja maior que o teu medo. ✨"],
+["fe", "Deus vê o que ninguém vê e recompensa o que ninguém aplaude. 🙌"],
+["fe", "Mesmo quando não entendes, confia: Ele sabe o que faz. 🙏"],
+["fe", "A tua oração de hoje pode ser a resposta de amanhã. ✨"],
+["fe", "Não tenhas medo do amanhã. Deus já lá está. 🌅"],
+["fe", "A fé é caminhar mesmo sem ver o fim da estrada. 🛤️"],
+["fe", "Que a graça de Deus te sustente quando a tua força acabar. 💫"],
+["fe", "O que Deus começou em ti, Ele termina. 🌱"],
+["fe", "Silencia o barulho e escuta: Deus continua a falar baixinho. 🕊️"],
+["fe", "Obrigado, Senhor, por mais um dia de vida e esperança. 🙏"],
+["fe", "Nada do que enfrentas é maior do que o Deus em quem confias. 🛡️"],
+["fe", "Entre o pedido e a resposta, há um tempo de crescer. ⏳"],
+["fe", "Que o Senhor abençoe o teu caminho e guarde a tua casa. 🏠"],
+["fe", "Quando tudo falhar, a fé continua de pé. ✝️"],
+["fe", "Deus escreve certo por linhas que ainda não entendes. 📖"],
+["amizade", "Amigo de verdade não precisa de plateia para estar presente. 🤝"],
+["amizade", "Poucos amigos, bons amigos. Chega e sobra. 💙"],
+["amizade", "Obrigado por ficares quando era mais fácil ir embora. 🙏"],
+["amizade", "Amizade é rir juntos e ficar calados sem desconforto. 😊"],
+["amizade", "Quem te diz a verdade com carinho é amigo para a vida. 💬"],
+["amizade", "Há pessoas que são casa. Tu és uma delas. 🏡"],
+["amizade", "Amigo é quem torce por ti mesmo quando estás a ganhar. 🏆"],
+["amizade", "Alguns encontros são acaso. Os amigos são presente. 🎁"],
+["amizade", "A distância não apaga uma amizade verdadeira. 📱"],
+["amizade", "Aos amigos que ficaram nos dias difíceis: obrigado. 🫶"],
+["amizade", "Boas amizades não cobram, não comparam, não competem. ✨"],
+["amizade", "Um amigo ouve o que dizes e entende o que calas. 🤍"],
+["amizade", "Com amigos assim, até os problemas pesam menos. 😄"],
+["amizade", "Cuida de quem cuida de ti. É assim que uma amizade dura. 🌱"],
+["amizade", "Amigo não é quem aparece sempre, é quem aparece quando importa. 🤝"],
+["amizade", "Amigo não é quem sempre concorda, é quem sempre fica. 🤝"],
+["amizade", "A melhor viagem é a que se faz com bons amigos. ✈️"],
+["amizade", "Há amigos que se tornam irmãos sem precisar de sangue. 💙"],
+["amizade", "Obrigado por me aturares nos meus piores dias. 😅"],
+["amizade", "Amizades fortes aguentam tempo, distância e silêncio. ⏳"],
+["amizade", "Quem ri contigo e chora contigo vale ouro. 🥇"],
+["amizade", "Um bom amigo celebra as tuas vitórias como se fossem dele. 🎉"],
+["amizade", "Não preciso de muitos, preciso de verdadeiros. 💎"],
+["amizade", "Amigo é quem estende a mão antes de pedires. 🤲"],
+["amizade", "Falta de tempo não acaba com uma amizade verdadeira. ⌛"],
+["amizade", "Amigos são a prova de que a vida sabe ser generosa. 🎁"],
+["amizade", "Aos meus amigos: estou aqui, sempre. 🫂"],
+["amizade", "Boas amizades iluminam até os dias mais escuros. 💡"],
+["amizade", "Amizade é presença, não perfeição. 🤍"],
+["gratidao", "Obrigado, vida, por mais um dia e por tudo o que ainda vem. 🙏"],
+["gratidao", "Gratidão é ver o que tens antes de contar o que falta. ✨"],
+["gratidao", "Agradece as pequenas coisas: são elas as grandes. 🌼"],
+["gratidao", "Hoje agradeço a quem esteve comigo quando ninguém estava. 🫶"],
+["gratidao", "Há sempre um motivo para dizer obrigado. Procura-o. 🔎"],
+["gratidao", "A gratidão transforma o pouco em suficiente. 🌱"],
+["gratidao", "Obrigado, Deus, pela saúde, pela casa e pelo pão. 🍞"],
+["gratidao", "Quem agradece vê mais e reclama menos. 😊"],
+["gratidao", "Agradeço tudo o que vivi e o que isso me ensinou. 📖"],
+["gratidao", "A gratidão faz de um dia comum um dia bom. ☀️"],
+["gratidao", "Obrigado a quem acredita em mim antes de eu acreditar. 💛"],
+["gratidao", "Hoje o meu coração está cheio de agradecimento. 🙏"],
+["familia", "Família não é perfeita, mas é onde o coração descansa. 🏡"],
+["familia", "A melhor herança de uma família é o amor que se partilha. ❤️"],
+["familia", "Obrigado, pai e mãe, por tudo o que fizeram por mim. 🙏"],
+["familia", "Em casa, o amor não se explica: sente-se. 🤍"],
+["familia", "A família é o primeiro lugar onde aprendemos a amar. 🌳"],
+["familia", "Que nunca falte pão na mesa nem paz dentro de casa. 🍽️"],
+["familia", "Irmãos podem discutir, mas nunca deixam de se proteger. 🤝"],
+["familia", "A mãe é o primeiro abraço e o último refúgio. 🤱"],
+["familia", "Um pai presente vale mais do que qualquer presente. 💙"],
+["familia", "Família unida vence qualquer tempestade. ⛈️"],
+["familia", "Onde há família, há raízes. Onde há raízes, há força. 🌱"],
+["familia", "Que a nossa casa seja sempre lugar de riso e de perdão. 😊"],
+["familia", "Cuida de quem te criou. O tempo passa depressa. ⏳"]
+];
+var ADS={on:false,every:6};
+var PAGE=24,cat="todas",q="",cur=[],shown=0;
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function tile(i,extra){var d=D[i];return '<article class="tile c-'+d[0]+(extra||"")+'"><p class="cat">'+N[d[0]]+'</p><p class="phrase">'+d[1]+'</p><div class="actions"><button class="btn main" data-a="wa" data-i="'+i+'">Enviar no WhatsApp</button><button class="btn" data-a="copy" data-i="'+i+'">Copiar</button></div></article>'}
+function chips(){var h='<button class="chip" data-c="todas" aria-pressed="'+(cat==="todas")+'">Todas</button>';for(var k in N){h+='<button class="chip" data-c="'+k+'" aria-pressed="'+(cat===k)+'">'+N[k]+'</button>'}document.getElementById("chips").innerHTML=h}
+/* ANÚNCIOS: 1) mete o script da rede no <head>; 2) põe ADS.on=true; 3) escreve aqui o código que preenche cada espaço (el). */
+function fillAd(el){}
+function initAds(){if(!ADS.on)return;var a=document.querySelectorAll(".ad:not(.on)");for(var i=0;i<a.length;i++){a[i].classList.add("on");fillAd(a[i])}}
+function add(){var h="",end=Math.min(shown+PAGE,cur.length);for(var k=shown;k<end;k++){h+=tile(cur[k]);if((k+1)%ADS.every===0)h+='<aside class="ad" aria-label="Publicidade"></aside>'}document.getElementById("list").insertAdjacentHTML("beforeend",h);shown=end;document.getElementById("more").hidden=shown>=cur.length;initAds()}
+function list(){cur=[];for(var i=0;i<D.length;i++){if(cat!=="todas"&&D[i][0]!==cat)continue;if(q&&norm(D[i][1]).indexOf(q)<0)continue;cur.push(i)}shown=0;document.getElementById("list").innerHTML=cur.length?"":'<p class="empty">Nenhuma frase encontrada.</p>';document.getElementById("count").textContent=cur.length+" frases";document.getElementById("listTitle").textContent=cat==="todas"?"Todas as frases":"Frases de "+N[cat].toLowerCase();add()}
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.className="toast show";clearTimeout(toast.t);toast.t=setTimeout(function(){t.className="toast"},1800)}
+function text(i){return D[i][1]}
+function wa(s){var u="https://wa.me/?text="+encodeURIComponent(s);if(navigator.share){navigator.share({text:s}).catch(function(e){if(!e||e.name!=="AbortError")location.href=u})}else{location.href=u}}
+function copy(s){if(navigator.clipboard&&window.isSecureContext){return navigator.clipboard.writeText(s)}return new Promise(function(ok,no){var a=document.createElement("textarea");a.value=s;document.body.appendChild(a);a.select();try{document.execCommand("copy")?ok():no()}catch(e){no()}document.body.removeChild(a)})}
+document.addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+if(b.id==="more"){add();return}
+if(b.dataset.c){cat=b.dataset.c;chips();list();return}
+var i=b.dataset.i;if(i===undefined)return;
+if(b.dataset.a==="copy"){copy(text(i)).then(function(){toast("Copiado")},function(){toast("Não foi possível copiar")})}
+else{wa(text(i))}});
+document.getElementById("q").addEventListener("input",function(e){q=norm(e.target.value.trim());list()});
+chips();list();document.getElementById("today").innerHTML=tile(Math.floor(Date.now()/864e5)%D.length," today");initAds();
+</script>
+</body>
+</html>
