@@ -62,6 +62,8 @@ footer{max-width:640px;margin:0 auto;padding:0 16px 32px;color:#4a5070;font-size
 footer p{margin:0 0 8px}
 footer a{color:inherit}
 .inst{margin-top:12px;width:100%;border-color:var(--ink);color:var(--ink)}
+#ad-topo.on{display:block;min-height:0;background:none}
+.ad.on iframe{border:0;max-width:100%}
 </style>
 <!-- ANÚNCIOS: cola aqui o script da rede de anúncios (quando fores aprovado) -->
 </head>
@@ -1103,14 +1105,16 @@ var D=[
 ["superacao", "Recomeçar é coragem. Continua, a tua história não acabou. 🏆"],
 ["superacao", "Levanta a cabeça. Quem supera cresce. 🏆"]
 ];
-var ADS={on:false,every:6};
+var ADS={on:true,every:12};
 var PAGE=24,cat="todas",q="",cur=[],shown=0;
 function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
 function tile(i,extra){var d=D[i];return '<article class="tile c-'+d[0]+(extra||"")+'"><p class="cat">'+N[d[0]]+'</p><p class="phrase">'+d[1]+'</p><div class="actions"><button class="btn main" data-a="wa" data-i="'+i+'">Enviar no WhatsApp</button><button class="btn" data-a="copy" data-i="'+i+'">Copiar</button></div></article>'}
 function chips(){var h='<button class="chip" data-c="todas" aria-pressed="'+(cat==="todas")+'">Todas</button>';for(var k in N){h+='<button class="chip" data-c="'+k+'" aria-pressed="'+(cat===k)+'">'+N[k]+'</button>'}document.getElementById("chips").innerHTML=h}
 /* ANÚNCIOS: 1) mete o script da rede no <head>; 2) põe ADS.on=true; 3) escreve aqui o código que preenche cada espaço (el). */
-function fillAd(el){}
-function initAds(){if(!ADS.on)return;var a=document.querySelectorAll(".ad:not(.on)");for(var i=0;i<a.length;i++){a[i].classList.add("on");fillAd(a[i])}}
+var NB="bfcc1fa45d20ee6a8e9d5bb7f7b5cce3",BK="8d2d6cf111eaa57e482f916e224ad3e4";
+function fillAd(el){if(el.id==="ad-topo"){var c=document.createElement("div");c.id="container-"+NB;el.appendChild(c);var t=document.createElement("script");t.async=true;t.setAttribute("data-cfasync","false");t.src="https://bicea.org/21/"+NB;el.appendChild(t);return true}
+var f=document.createElement("iframe");f.width=300;f.height=250;f.scrolling="no";f.setAttribute("frameborder","0");f.title="Publicidade";f.srcdoc='<!DOCTYPE html><html><body style="margin:0"><script>atOptions={"key":"'+BK+'","format":"iframe","height":250,"width":300,"params":{}};<\/script><script src="https://bicea.org/22/'+BK+'"><\/script></body></html>';el.style.minHeight="250px";el.appendChild(f);return true}
+function initAds(){if(!ADS.on)return;var a=document.querySelectorAll(".ad:not([data-f])");for(var i=0;i<a.length;i++){a[i].dataset.f=1;if(fillAd(a[i]))a[i].classList.add("on")}}
 function add(){var h="",end=Math.min(shown+PAGE,cur.length);for(var k=shown;k<end;k++){h+=tile(cur[k]);if((k+1)%ADS.every===0)h+='<aside class="ad" aria-label="Publicidade"></aside>'}document.getElementById("list").insertAdjacentHTML("beforeend",h);shown=end;document.getElementById("more").hidden=shown>=cur.length;initAds()}
 function list(){cur=[];for(var i=0;i<D.length;i++){if(cat!=="todas"&&D[i][0]!==cat)continue;if(q&&norm(D[i][1]).indexOf(q)<0)continue;cur.push(i)}shown=0;document.getElementById("list").innerHTML=cur.length?"":'<p class="empty">Nenhuma frase encontrada.</p>';document.getElementById("count").textContent=cur.length+" frases";document.getElementById("listTitle").textContent=cat==="todas"?"Todas as frases":"Frases de "+N[cat].toLowerCase();add()}
 function toast(m){var t=document.getElementById("toast");t.textContent=m;t.className="toast show";clearTimeout(toast.t);toast.t=setTimeout(function(){t.className="toast"},1800)}
