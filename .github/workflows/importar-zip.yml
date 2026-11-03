@@ -1,0 +1,52 @@
+name: Importar ZIP do Frases Belas
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Frases_Belas_Versao_Final_Otimizada.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Obter repositorio
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extrair pacote
+        run: |
+          mkdir -p /tmp/frasesbelas
+          unzip -o Frases_Belas_Versao_Final_Otimizada.zip -d /tmp/frasesbelas
+
+          SOURCE="/tmp/frasesbelas/frasesbelas.github.io-main"
+
+          test -f "$SOURCE/index.html"
+
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            "$SOURCE/" ./
+
+          rm -f Frases_Belas_Versao_Final_Otimizada.zip
+
+      - name: Guardar alteracoes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "Nenhuma alteracao encontrada."
+          else
+            git commit -m "Atualiza Frases Belas com pacote optimizado"
+            git push
+          fi
