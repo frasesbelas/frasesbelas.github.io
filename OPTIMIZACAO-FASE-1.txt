@@ -1,0 +1,10 @@
+FRases Belas - Otimizacao fase 1
+
+- 243 fotografias convertidas de JPEG para WebP, mantendo as dimensoes originais.
+- Catalogos de fundos e puzzles atualizados para os novos ficheiros WebP.
+- Os 17 ficheiros de frases JSON foram minificados sem alterar os dados.
+- Service worker atualizado para cache v11.
+- Imagens ja guardadas em cache sao apresentadas imediatamente offline/online e atualizadas em segundo plano quando existe rede.
+- Mantidos os 21.019 registos de frases, 118 fundos e 125 imagens de puzzle.
+
+Nota: esta fase reduz o peso das imagens e melhora a reutilizacao de cache. Nao substitui testes em dispositivos Android reais nem mede consumo real de dados em redes moveis.

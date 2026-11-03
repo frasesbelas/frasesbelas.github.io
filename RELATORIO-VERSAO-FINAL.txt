@@ -1,0 +1,35 @@
+FRASES BELAS - PACOTE FINAL DE OPTIMIZACAO
+Data: 03-11-2026
+
+PRESERVADO
+- 21.019 frases em 17 ficheiros JSON.
+- 118 fotografias de fundos em WebP.
+- 125 fotografias para puzzles em WebP.
+- Catálogos de fundos e puzzles e respectivos caminhos.
+- Estrutura HTML/CSS/JavaScript, páginas legais, manifest e recursos PWA existentes.
+- Jogos locais e funcionalidades existentes no código original.
+
+ALTERAÇÕES DESTA VERSÃO
+- Service Worker actualizado para fb-shell-v12 / fb-runtime-v12.
+- Imagens passam a usar cache-first: depois de descarregadas, não são pedidas novamente em cada visualização.
+- Dados JSON usam network-first com fallback em cache para permitir actualizações e leitura offline quando já foram carregados.
+- Limite de 190 entradas na cache dinâmica para reduzir crescimento descontrolado.
+- Integrados os três formatos Adsterra fornecidos: Native Banner, Banner 320x50 e Banner 300x250. As posições ficam na página inicial, fora da área de jogo.
+- Espaços de publicidade limitados à largura disponível.
+
+VALIDAÇÕES AUTOMÁTICAS EXECUTADAS
+- 17 ficheiros de frases JSON válidos; total contado: 21.019.
+- JSON dos catálogos e manifest válidos.
+- 118 referências de fundos e 125 referências de puzzles verificadas; nenhuma imagem em falta.
+- Sintaxe JavaScript dos blocos inline validada com Node.js.
+- Sintaxe do Service Worker validada com Node.js.
+- Os três identificadores Adsterra aparecem no HTML final.
+
+LIMITES IMPORTANTES
+- Os anúncios dependem da rede, disponibilidade da Adsterra, bloqueadores e políticas do navegador; não é possível garantir que apareçam a todos os utilizadores.
+- O cache offline só pode disponibilizar frases e imagens que o utilizador já tenha carregado pelo menos uma vez. Não se descarrega todo o conteúdo no primeiro acesso, para poupar dados.
+- Não foi possível executar testes reais em telemóveis Android, testar receita/publicidade real, nem validar todos os fluxos interactivos num navegador físico neste ambiente.
+- Não foram removidas funcionalidades por não haver evidência suficiente de que fossem desnecessárias.
+
+PUBLICAÇÃO
+Extrair o conteúdo desta pasta para a raiz do repositório GitHub Pages, substituindo os ficheiros existentes. Não colocar a pasta exterior como subpasta do site. Depois da publicação, testar em Chrome Android, limpar/actualizar a cache do site se a versão antiga persistir e confirmar os anúncios e a instalação PWA.
